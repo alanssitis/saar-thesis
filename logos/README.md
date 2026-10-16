@@ -3,7 +3,6 @@
 The template uses the RGB logo assets in `logos/rgb/` for both `mode: "screen"`
 and `mode: "print"`:
 
-- `logos/rgb/lst-logo.svg`
 - `logos/rgb/uds-logo.svg`
 
 Both SVGs use the UdS style-guide screen color:
@@ -20,7 +19,6 @@ but it does not switch to CMYK logo files.
 
 `logos/cmyk/` contains CMYK PDF versions of the logos:
 
-- `logos/cmyk/lst-logo.pdf`
 - `logos/cmyk/uds-logo.pdf`
 
 These are retained as reference assets for possible professional-print workflows.

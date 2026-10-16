@@ -1,16 +1,16 @@
-#import "@preview/owl-lst-thesis:0.1.0": *
+#import "@preview/uds-thesis:0.1.0": *
 #import "@preview/pergamon:0.8.0": *
 
 // Use "de" for German template labels.
 #set text(lang: "en")
 
-#show: lst.with(
+#show: uds.with(
   title: "Thesis Title",
   author: "Your Name",
   matriculation-number: "Your Matriculation Number",
 
-  degree-program: "coli",
-  // one of "coli", "lst", "lct", "langsci", "tst"
+  degree-program: "b-cs-info",
+  // one of "b-cs-info", "b-cyber", "m-cs-info", "m-cyber"
 
   supervisors: (
     ("Supervisors", "First Supervisor", "Second Supervisor"),
@@ -27,7 +27,7 @@
 
   acknowledgments: [
     Write optional acknowledgments here, or remove this argument.
-  ]
+  ],
 )
 
 #add-bib-resource(read("custom.bib"))
@@ -46,4 +46,4 @@ Many interesting combinatorial problems are NP-complete #cite("GareyJohnsonBook"
 
 = Conclusion
 
-#print-lst-bibliography()
+#print-uds-bibliography()

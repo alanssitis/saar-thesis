@@ -1,22 +1,26 @@
-# Typst style for LST theses
+# Typst template for UdS theses
 
-This is a Typst thesis style
-for the [Department of Language Science and Technology](https://www.lst.uni-saarland.de/)
-at [Saarland University](https://www.uni-saarland.de/).
+This is a Typst template for UdS theses, forked from the incredible template
+by [Alexander Koller](https://www.coli.uni-saarland.de/~koller/) available
+at [coli-saar/owl-lst-thesis](https://github.com/coli-saar/owl-lst-thesis),
+from the [Department of Language Science and Technology](https://www.lst.uni-saarland.de/)
+at [Saarland University](https://www.uni-saarland.de/). Minor changes were made
+to make it more generic.
+
 You can use this for your Bachelor's or Master's Thesis or any other document you like.
-The template is maintained by [Alexander Koller](https://www.coli.uni-saarland.de/~koller/).
+The fork is minimally maintained by [Alan Chung Ma](https://alan.chung-ma.com).
 
 The template sets up the title page, declaration, abstract, acknowledgments,
-table of contents, chapter styling, headers, page numbers, figure captions, and bibliography
-formatting for an LST thesis.
-The default `screen` mode uses equal left and right margins. The `print` mode is intended for
-double-sided printing and binding, with a wider inner margin.
+table of contents, chapter styling, headers, page numbers, figure captions, and
+bibliography formatting for a thesis.
+The default `screen` mode uses equal left and right margins. The `print` mode is
+intended for double-sided printing and binding, with a wider inner margin.
 
 
 ## Quick start in the Typst web app
 
 1. Open the Typst web app.
-2. Create a new project from the `owl-lst-thesis` template.
+2. Create a new project from the `uds-thesis` template.
 3. Edit the metadata in the `#show` block.
 4. Add BibTeX entries and import your BibTeX file with `add-bib-resource`.
 
@@ -28,7 +32,7 @@ You can write the thesis below the `#show: lst` block and export the PDF from th
 This is the smallest useful shape of a thesis file:
 
 ```typst
-#import "@preview/owl-lst-thesis:0.1.0": *
+#import "@preview/uds-thesis:0.1.0": *
 #import "@preview/pergamon:0.8.0": *
 
 #set text(lang: "en")

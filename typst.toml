@@ -1,29 +1,20 @@
 [package]
-name = "owl-lst-thesis"
+name = "uds-thesis"
 version = "0.1.0"
 entrypoint = "lib.typ"
-authors = ["Alexander Koller <koller@lst.uni-saarland.de>"]
+authors = ["Alan A. Chung Ma <alan@chung-ma.com>", "Alexander Koller <koller@lst.uni-saarland.de>"]
 license = "MIT-0"
-description = "Thesis in the LST department at Saarland University."
-repository = "https://github.com/coli-saar/typst-lst-template"
+description = "Thesis at Saarland University."
+repository = "https://github.com/alanssitis/uds-thesis"
 keywords = [
   "Saarland University",
-  "Language Science and Technology",
-  "LST",
   "thesis",
 ]
 categories = ["thesis"]
-disciplines = ["computer-science", "linguistics"]
-compiler = "0.15.0"
-exclude = [
-  "/tmp/",
-  "/custom.bib",
-  "/main.typ",
-  "/main.pdf",
-  ".DS_Store",
-]
+disciplines = ["computer-science", "math"]
+compiler = "0.15.1"
 
 [template]
 path = "template"
-entrypoint = "main.typ"
+entrypoint = "lib.typ"
 thumbnail = "thumbnail.png"

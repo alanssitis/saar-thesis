@@ -31,7 +31,7 @@ replace_version_refs() {
     sed -i.bak -E \
         -e "s/@preview\/$PACKAGE:[0-9]+\.[0-9]+\.[0-9]+/@preview\/$PACKAGE:$VERSION/g" \
         -e "s/^version = \".*\"/version = \"$VERSION\"/" \
-        -e "s/^(#let lst-template-version = \").*(\")/\1$VERSION\2/" \
+        -e "s/^(#let uds-template-version = \").*(\")/\1$VERSION\2/" \
         "$file"
     rm -f "$file.bak"
 }
@@ -61,7 +61,6 @@ cp lib.typ "$RELEASE_DIR/lib.typ"
 cp README.md "$RELEASE_DIR/README.md"
 cp LICENSE "$RELEASE_DIR/LICENSE"
 cp thumbnail.png "$RELEASE_DIR/thumbnail.png"
-cp logos/rgb/lst-logo.svg "$RELEASE_DIR/logos/rgb/lst-logo.svg"
 cp logos/rgb/uds-logo.svg "$RELEASE_DIR/logos/rgb/uds-logo.svg"
 cp template/main.typ "$RELEASE_DIR/template/main.typ"
 cp template/custom.bib "$RELEASE_DIR/template/custom.bib"

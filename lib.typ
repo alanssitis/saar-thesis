@@ -1,7 +1,7 @@
 #import "@preview/pergamon:0.8.0": *
 
-#let lst-template-version = "0.1.0"
-#let prepared-string = "Prepared with the owl-lst-thesis Typst template, version " + lst-template-version + "."
+#let uds-template-version = "0.1.0"
+#let prepared-string = "Prepared with the uds-thesis Typst template, version " + uds-template-version + "."
 
 #let titlepage-bottom-fontsize = 10pt
 
@@ -9,30 +9,28 @@
 #let uds-blue = uds-blue-screen
 #let text-gray = luma(95)
 
-#let lst-mode-settings(mode) = {
+#let uds-mode-settings(mode) = {
   if mode == "screen" {
     (
       blue: uds-blue-screen,
-      lst_logo: "logos/rgb/lst-logo.svg",
       uds_logo: "logos/rgb/uds-logo.svg",
       page_margin: (bottom: 3cm, top: 3cm, inside: 2.75cm, outside: 2.75cm),
     )
   } else if mode == "print" {
     (
       blue: uds-blue-screen,
-      lst_logo: "logos/rgb/lst-logo.svg",
       uds_logo: "logos/rgb/uds-logo.svg",
       page_margin: (bottom: 3cm, top: 3cm, inside: 3cm, outside: 2.5cm),
     )
   } else {
-    panic("unknown LST template mode: " + repr(mode))
+    panic("unknown UdS template mode: " + repr(mode))
   }
 }
 
 // Built-in strings for the parts of the thesis that the template creates.
 // The selected language comes from `#set text(lang: "...")`; unsupported
 // languages fall back to English.
-#let lst-translations = (
+#let uds-translations = (
   en: (
     bibliography: "Bibliography",
     declaration: "Declaration",
@@ -71,52 +69,63 @@
   ),
 )
 
-#let lst-current-translations() = {
+#let uds-current-translations() = {
   let lang = text.lang
-  if lst-translations.keys().contains(lang) {
-    lst-translations.at(lang)
+  if uds-translations.keys().contains(lang) {
+    uds-translations.at(lang)
   } else {
-    lst-translations.en
+    uds-translations.en
   }
 }
 
+#let thesis-type-bachelor = (
+  en: "Bachelor's Thesis",
+  de: "Bachelorarbeit",
+)
+#let thesis-type-master = (
+  en: "Master's Thesis",
+  de: "Masterarbeit",
+)
+
 #let degree-programs = (
-  langsci: (
-    name: "BA Language Science",
-    thesis-type: (
-      en: "Bachelor's Thesis",
-      de: "Bachelorarbeit",
+  b-cs-info: (
+    name: (
+      en: "B.Sc. Computer Science",
+      de: "B.Sc. Informatik",
     ),
+    thesis-type: thesis-type-bachelor,
   ),
-  coli: (
-    name: "BSc Computerlinguistik",
-    thesis-type: (
-      en: "Bachelor's Thesis",
-      de: "Bachelorarbeit",
+  b-cyber: (
+    name: (
+      en: "B.Sc. Cybersecurity",
+      de: "B.Sc. Cybersicherheit",
     ),
+    thesis-type: thesis-type-bachelor,
   ),
-  lst: (
-    name: "MSc Language Science and Technology",
-    thesis-type: (
-      en: "Master's Thesis",
-      de: "Masterarbeit",
+  m-cs-info: (
+    name: (
+      en: "M.Sc. Computer Science",
+      de: "M.Sc. Informatik",
     ),
+    thesis-type: thesis-type-master,
   ),
-  lct: (
-    name: "MSc Language and Communication Technologies",
-    thesis-type: (
-      en: "Master's Thesis",
-      de: "Masterarbeit",
+  m-cyber: (
+    name: (
+      en: "M.Sc. Cybersecurity",
+      de: "M.Sc. Cybersicherheit",
     ),
-  ),
-  tst: (
-    name: "MA Translation Science and Technology",
-    thesis-type: (
-      en: "Master's Thesis",
-      de: "Masterarbeit",
-    ),
+    thesis-type: thesis-type-bachelor,
   ),
 )
+
+#let localized-name(name) = {
+  let lang = text.lang
+  if name.keys().contains(lang) {
+    name.at(lang)
+  } else {
+    name.en
+  }
+}
 
 #let localized-thesis-type(thesis-type) = {
   let lang = text.lang
@@ -127,17 +136,17 @@
   }
 }
 
-#let lst-text(key) = context {
-  lst-current-translations().at(key)
+#let uds-text(key) = context {
+  uds-current-translations().at(key)
 }
 
 // Public helper for the end of the thesis. It keeps the bibliography heading
 // consistent with the front matter and delegates the actual entries to Pergamon.
-#let print-lst-bibliography() = {
-  heading(level: 100)[#lst-text("bibliography")]
+#let print-uds-bibliography() = {
+  heading(level: 100)[#uds-text("bibliography")]
   v(-2em)
   print-bibliography(
-    title: none
+    title: none,
   )
 }
 
@@ -162,27 +171,34 @@
   }
 }
 
-// The title page is separated from `lst` so the main wrapper can focus on page
+// The title page is separated from `uds` so the main wrapper can focus on page
 // setup and document flow. Localized strings are passed in explicitly because
 // the title page is built inside a context block.
-#let title-page(mode-settings, strings, thesis-type, degree-program, title, author, matriculation-number, supervisors, date) = {
+#let title-page(
+  mode-settings,
+  strings,
+  thesis-type,
+  degree-program,
+  title,
+  author,
+  matriculation-number,
+  supervisors,
+  date,
+) = {
   set text(font: "Open Sans")
 
-  stack(dir: ltr,
+  stack(
+    dir: ltr,
     box(
       text(size: 12pt, fill: mode-settings.blue)[
         *#thesis-type*\
         #degree-program\
         #strings.university
-      ]
+      ],
     ),
     h(1fr),
 
-    stack(dir: ltr,
-      move(dy: -0.08cm, image(mode-settings.lst_logo, width: 1.9cm)),
-      h(0.6cm),
-      image(mode-settings.uds_logo, width: 1.6cm)
-    )
+    image(mode-settings.uds_logo, width: 1.6cm),
   )
 
   v(4.3cm)
@@ -192,7 +208,6 @@
   text(size: 24pt, weight: "bold", fill: mode-settings.blue, title)
 
   v(1fr)
-
 
   advisors(supervisors)
 
@@ -209,22 +224,24 @@
 
 
 
-// Main thesis wrapper. Use it through `#show: lst.with(...)` so the
+// Main thesis wrapper. Use it through `#show: uds.with(...)` so the
 // student's document body becomes `content` after the template has inserted the
 // title page, declaration, optional front matter, and table of contents.
-#let lst(thesis-type: none,
-          degree-program: none,
-          title: none,
-          author: none,
-          matriculation-number: none,
-          supervisors: none,
-          date: none,
-          city: "Saarbrücken",
-          mode: "screen",
-          abstract: none,
-          acknowledgments: none,
-          content) = [
-  #let mode-settings = lst-mode-settings(mode)
+#let uds(
+  thesis-type: none,
+  degree-program: none,
+  title: none,
+  author: none,
+  matriculation-number: none,
+  supervisors: none,
+  date: none,
+  city: "Saarbrücken",
+  mode: "screen",
+  abstract: none,
+  acknowledgments: none,
+  content,
+) = [
+  #let mode-settings = uds-mode-settings(mode)
   #let uds-blue = mode-settings.blue
 
   #if title != none and author != none {
@@ -238,10 +255,11 @@
   }
 
   #set page(
-      paper: "a4", margin: mode-settings.page_margin,
-      numbering: none,
-      number-align: center,
-    )
+    paper: "a4",
+    margin: mode-settings.page_margin,
+    numbering: none,
+    number-align: center,
+  )
 
   #set text(size: 11pt)
   #let leading-space = 0.7em
@@ -265,7 +283,7 @@
       set text(font: ("Open Sans", "Libertinus Serif"), weight: "bold", size: 24pt, fill: uds-blue)
 
       if it.level == 1 and it.numbering != none {
-        text(font: "Open Sans", size: 12pt, fill: text-gray)[#lst-text("chapter") #context(counter(heading).display())]
+        text(font: "Open Sans", size: 12pt, fill: text-gray)[#uds-text("chapter") #context (counter(heading).display())]
         v(-0.6em)
         text(fill: uds-blue, it.body)
 
@@ -305,7 +323,7 @@
     numbering: n => {
       let h1 = counter(heading).get().first()
       numbering("1.1", h1, n)
-    }
+    },
   )
 
   #show figure: set place(clearance: 2em)
@@ -338,7 +356,7 @@
       let page-here = here().page()
       align(
         if calc.odd(page-here) { right } else { left },
-        text(font: "Open Sans", size: 9pt, fill: uds-blue, weight: "semibold", counter(page).display())
+        text(font: "Open Sans", size: 9pt, fill: uds-blue, weight: "semibold", counter(page).display()),
       )
     } else {
       [  ] // empty page
@@ -371,7 +389,7 @@
       let chapter-title = current-chapter.body
       let chapter-number = str(counter(heading.where(level: 1)).get().first())
 
-      text(fill: uds-blue, weight: "semibold")[#lst-text("chapter") #chapter-number]
+      text(fill: uds-blue, weight: "semibold")[#uds-text("chapter") #chapter-number]
       h(0.35em)
       text(fill: text-gray)[/]
       h(0.35em)
@@ -415,7 +433,9 @@
   #let page-header = context {
     let page-here = here().page()
     // Chapter starts include real chapters and generated front-matter pages.
-    let is-start-chapter = query(heading.where(level: 1) .or(heading.where(level: 100))   ).any(it => it.location().page() == page-here)
+    let is-start-chapter = query(heading.where(level: 1).or(heading.where(level: 100))).any(it => (
+      it.location().page() == page-here
+    ))
 
     if not state("content.switch", false).get() and not is-start-chapter {
       [  ] // empty page
@@ -430,10 +450,12 @@
         header-for-chapter()
       }
 
-      align(if calc.odd(page-here) { right } else { left },
+      align(
+        if calc.odd(page-here) { right } else { left },
         text(font: "Open Sans", size: 9pt)[
           #header-content
-        ])
+        ],
+      )
     }
 
     // update the list of pages on which the footer displays page numbers
@@ -446,14 +468,17 @@
   // Generated front matter. Page numbering starts in roman numerals after the
   // unnumbered title page, then restarts in arabic numerals for the thesis body.
   #context {
-    let strings = lst-current-translations()
+    let strings = uds-current-translations()
     if degree-program == none {
-      panic("Missing degree program. Set `degree-program` to one of \"langsci\", \"coli\", \"lst\", \"lct\", or \"tst\", or pass a free-form degree-program together with `thesis-type`.")
+      panic(
+        "Missing degree program. Set `degree-program` to one of \"langsci\", \"coli\", \"uds\", \"lct\", or \"tst\", or pass a free-form degree-program together with `thesis-type`.",
+      )
     }
 
     let is-known-degree-program = type(degree-program) == str and degree-programs.keys().contains(degree-program)
     let resolved-degree-program = if is-known-degree-program {
-      degree-programs.at(degree-program)
+      let program = degree-programs.at(degree-program)
+      (name: localized-name(program.name), thesis-type: program.thesis-type)
     } else {
       (name: degree-program, thesis-type: none)
     }
@@ -469,7 +494,17 @@
     }
 
     // title page
-    title-page(mode-settings, strings, displayed-thesis-type, resolved-degree-program.name, title, author, matriculation-number, supervisors, date)
+    title-page(
+      mode-settings,
+      strings,
+      displayed-thesis-type,
+      resolved-degree-program.name,
+      title,
+      author,
+      matriculation-number,
+      supervisors,
+      date,
+    )
 
     // declaration page
     set page(numbering: "i")
@@ -496,14 +531,14 @@
   // argument is `none`.
   #set par(justify: true)
   #if abstract != none [
-    #heading(level: 100)[#lst-text("abstract")]
+    #heading(level: 100)[#uds-text("abstract")]
     #v(-2em)
     #abstract
   ]
 
   // acknowledgments
   #if acknowledgments != none [
-    #heading(level: 100)[#lst-text("acknowledgments")]
+    #heading(level: 100)[#uds-text("acknowledgments")]
     #v(-2em)
     #acknowledgments
   ]
@@ -514,7 +549,7 @@
     it
   }
 
-  #outline(title: lst-text("contents"), depth: 2) // show sections, but not subsections
+  #outline(title: uds-text("contents"), depth: 2) // show sections, but not subsections
 
   // Main matter starts the visible chapter/section numbering and wraps the body
   // in Pergamon's author-year citation style.
@@ -523,20 +558,23 @@
   #set heading(numbering: "1.1")
 
   #context {
-    let strings = lst-current-translations()
-    refsection(style: authoryear-style(
-      reference: (
-        name-format: "{given} {family}",
-        format-quotes: it => it,
-        print-date-after-authors: true,
-        suppress-fields: (
-          "*": ("month", "day",),
-          "inproceedings": ("editor", "publisher", "pages", "location")
+    let strings = uds-current-translations()
+    refsection(
+      style: authoryear-style(
+        reference: (
+          name-format: "{given} {family}",
+          format-quotes: it => it,
+          print-date-after-authors: true,
+          suppress-fields: (
+            "*": ("month", "day"),
+            "inproceedings": ("editor", "publisher", "pages", "location"),
+          ),
+          eval-scope: ("todo": x => text(fill: red, x)),
+          bibstring: ("in": strings.bib-in),
+          bibstring-style: "long",
         ),
-        eval-scope: ("todo": x => text(fill: red, x)),
-        bibstring: ("in": strings.bib-in),
-        bibstring-style: "long",
-      )
-    ), content)
+      ),
+      content,
+    )
   }
 ]
