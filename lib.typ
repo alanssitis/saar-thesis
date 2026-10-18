@@ -7,20 +7,21 @@
 
 #let uds-blue-screen = rgb(0, 72, 118)
 #let uds-blue = uds-blue-screen
+#let uds-logo = image("logos/rgb/uds-logo.png", height: 1.8cm)
 #let text-gray = luma(95)
 
 #let uds-mode-settings(mode) = {
   if mode == "screen" {
     (
       blue: uds-blue-screen,
-      uds_logo: "logos/rgb/uds-logo.svg",
+      uds_logo: uds-logo,
       page_margin: (bottom: 3cm, top: 3cm, inside: 2.75cm, outside: 2.75cm),
     )
   } else if mode == "print" {
     (
       blue: uds-blue-screen,
-      uds_logo: "logos/rgb/uds-logo.svg",
-      page_margin: (bottom: 3cm, top: 3cm, inside: 3cm, outside: 2.5cm),
+      uds_logo: uds-logo,
+      page_margin: (bottom: 3cm, top: 3cm, inside: 3.5cm, outside: 2cm),
     )
   } else {
     panic("unknown UdS template mode: " + repr(mode))
@@ -190,15 +191,16 @@
   stack(
     dir: ltr,
     box(
-      text(size: 12pt, fill: mode-settings.blue)[
+      align(horizon, text(size: 12pt, fill: mode-settings.blue)[
         *#thesis-type*\
         #degree-program\
         #strings.university
-      ],
+      ]),
+      height: mode-settings.uds_logo.height,
     ),
     h(1fr),
 
-    image(mode-settings.uds_logo, width: 1.6cm),
+    mode-settings.uds_logo,
   )
 
   v(4.3cm)
@@ -505,27 +507,27 @@
       supervisors,
       date,
     )
-
-    // declaration page
-    set page(numbering: "i")
-    counter(page).update(0)
-    heading(level: 100, strings.declaration)
-    v(-2em)
-    strings.declaration-text
-    v(2em)
-
-    city
-    [, ]
-    date
-
-    v(5em)
-    line(length: 50%)
-    v(-0.5em)
-    [(#author)]
-
-    v(1fr)
-    text(size: 8pt, prepared-string)
   }
+
+  // declaration page
+  #set page(numbering: "i")
+  #counter(page).update(0)
+  #heading(level: 100, uds-text("abstract"))
+  #v(-2em)
+  #uds-text("declaration-text")
+  #v(2em)
+
+  #city
+  ,
+  #date
+
+  #v(5em)
+  #line(length: 50%)
+  #v(-0.5em)
+  (#author)
+
+  #v(1fr)
+  #text(size: 8pt, prepared-string)
 
   // Optional front-matter sections are omitted entirely when the corresponding
   // argument is `none`.

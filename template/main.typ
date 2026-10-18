@@ -40,7 +40,7 @@ Start writing your thesis here.
 
 Many interesting combinatorial problems are NP-complete #cite("GareyJohnsonBook").
 
-#citet("bender-koller-2020-climbing") argued that meaning cannot be learned from form alone.
+#cite("bender-koller-2020-climbing") argued that meaning cannot be learned from form alone.
 
 = My Contribution
 
