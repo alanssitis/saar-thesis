@@ -4,8 +4,9 @@ This is a Typst template for UdS theses, forked from the incredible template
 by [Alexander Koller](https://www.coli.uni-saarland.de/~koller/) available
 at [coli-saar/owl-lst-thesis](https://github.com/coli-saar/owl-lst-thesis),
 from the [Department of Language Science and Technology](https://www.lst.uni-saarland.de/)
-at [Saarland University](https://www.uni-saarland.de/). Minor changes were made
-to make it more generic.
+at [Saarland University](https://www.uni-saarland.de/). It has been adapted to be
+usable across Saarland University rather than for LST only: the LST branding was
+removed, and the built-in degree programs are now Computer Science and Cybersecurity.
 
 You can use this for your Bachelor's or Master's Thesis or any other document you like.
 The fork is minimally maintained by [Alan Chung Ma](https://alan.chung-ma.com).
@@ -24,7 +25,7 @@ intended for double-sided printing and binding, with a wider inner margin.
 3. Edit the metadata in the `#show` block.
 4. Add BibTeX entries and import your BibTeX file with `add-bib-resource`.
 
-You can write the thesis below the `#show: lst` block and export the PDF from the web app.
+You can write the thesis below the `#show: uds` block and export the PDF from the web app.
 
 
 ## Minimal thesis file
@@ -37,11 +38,11 @@ This is the smallest useful shape of a thesis file:
 
 #set text(lang: "en")
 
-#show: lst.with(
+#show: uds.with(
   title: "My Thesis Title",
   author: "Jane Student",
   matriculation-number: "1234567",
-  degree-program: "coli",
+  degree-program: "b-cs-info",
   supervisors: (
     ("Supervisors", "Prof. Dr. First Supervisor", "Prof. Dr. Second Supervisor"),
     ("Additional advisor", "Dr. Helpful Advisor"),
@@ -60,15 +61,15 @@ This is the smallest useful shape of a thesis file:
 
 = Introduction
 
-Start writing here. Cite papers with Pergamon like this #cite("bender-koller-2020-climbing").
+Start writing here. Cite papers with Pergamon like this #cite("doe-roe-2020-lorem").
 
-#print-lst-bibliography()
+#print-uds-bibliography()
 ```
 
 
 ## Template arguments
 
-The main function is `lst`. Use it in a `#show` rule around your document content.
+The main function is `uds`. Use it in a `#show` rule around your document content.
 
 - `title`: Thesis title shown on the title page and stored in the PDF metadata. Can be any content.
 - `author`: Your name, stored in the PDF metadata. Must be a string.
@@ -89,21 +90,20 @@ The main function is `lst`. Use it in a `#show` rule around your document conten
 
 Built-in degree programs:
 
-| Abbreviation | Degree program | English thesis type | German thesis type |
-| --- | --- | --- | --- |
-| `"langsci"` | `BA Language Science` | `Bachelor's Thesis` | `Bachelorarbeit` |
-| `"coli"` | `BSc Computerlinguistik` | `Bachelor's Thesis` | `Bachelorarbeit` |
-| `"lst"` | `MSc Language Science and Technology` | `Master's Thesis` | `Masterarbeit` |
-| `"lct"` | `MSc Language and Communication Technologies` | `Master's Thesis` | `Masterarbeit` |
-| `"tst"` | `MA Translation Science and Technology` | `Master's Thesis` | `Masterarbeit` |
+| Abbreviation | English degree program | German degree program | English thesis type | German thesis type |
+| --- | --- | --- | --- | --- |
+| `"b-cs-info"` | `B.Sc. Computer Science` | `B.Sc. Informatik` | `Bachelor's Thesis` | `Bachelorarbeit` |
+| `"b-cyber"` | `B.Sc. Cybersecurity` | `B.Sc. Cybersicherheit` | `Bachelor's Thesis` | `Bachelorarbeit` |
+| `"m-cs-info"` | `M.Sc. Computer Science` | `M.Sc. Informatik` | `Master's Thesis` | `Masterarbeit` |
+| `"m-cyber"` | `M.Sc. Cybersecurity` | `M.Sc. Cybersicherheit` | `Master's Thesis` | `Masterarbeit` |
 
-For these built-in abbreviations, the degree program name is printed exactly as shown above. The
-thesis type is selected from the document language: `#set text(lang: "en")` prints the English
-label, and `#set text(lang: "de")` prints the German label.
+For these built-in abbreviations, both the degree program name and the thesis type are selected
+from the document language: `#set text(lang: "en")` prints the English labels, and
+`#set text(lang: "de")` prints the German labels.
 
 The template automatically creates:
 
-- title page with LST and Saarland University logos;
+- title page with the Saarland University logo;
 - declaration page;
 - PDF metadata with the thesis title, author, and template preparation string;
 - abstract and acknowledgments pages when provided;
@@ -112,7 +112,7 @@ The template automatically creates:
 - odd-page chapter starts with blank pages where needed;
 - running headers with chapter and section information;
 - chapter-based numbering for figures, tables, raw figures, and equations;
-- LST-styled captions, links, references, and bibliography heading.
+- [LST](https://github.com/coli-saar/owl-lst-thesis)-styled captions, links, references, and bibliography heading.
 
 
 ## Language
@@ -180,7 +180,7 @@ three pieces in your thesis file:
 
 #add-bib-resource(read("custom.bib"))
 
-#print-lst-bibliography()
+#print-uds-bibliography()
 ```
 
 Add references to `custom.bib` in normal BibTeX format. Of course you can also use Bibtex files with different names.
@@ -189,16 +189,16 @@ Cite a source in parentheses with `#cite` and as a noun phrase with `#citet`.
 Pass the BibTeX key as a string (not as a label like in the default Typst `cite` command):
 
 ```typst
-#citet("bender-koller-2020-climbing") argued that meaning cannot be learned from form alone.
+#citet("doe-roe-2020-lorem") argued that sed do eiusmod tempor incididunt ut labore.
 ```
 
 Finally, print the bibliography at the end of the document:
 
 ```typst
-#print-lst-bibliography()
+#print-uds-bibliography()
 ```
 
-`print-lst-bibliography` is provided by this template. It creates the LST-styled bibliography
+`print-uds-bibliography` is provided by this template. It creates the UdS-styled bibliography
 heading and then asks Pergamon to print the bibliography.
 
 
@@ -215,8 +215,8 @@ In the Typst web app, Libertinus Serif and Open Sans should be available without
 To select another degree program, set `degree-program`:
 
 ```typst
-#show: lst.with(
-  degree-program: "lst",
+#show: uds.with(
+  degree-program: "m-cs-info",
   title: "My Thesis Title",
   // add the remaining arguments as in the minimal example
 )
@@ -225,8 +225,8 @@ To select another degree program, set `degree-program`:
 To override the thesis type that is chosen from the degree program, set `thesis-type`:
 
 ```typst
-#show: lst.with(
-  degree-program: "langsci",
+#show: uds.with(
+  degree-program: "b-cs-info",
   thesis-type: "Seminar paper",
   title: "My Seminar Paper",
   // add the remaining arguments as in the minimal example
@@ -236,7 +236,7 @@ To override the thesis type that is chosen from the degree program, set `thesis-
 Free-form degree programs are also possible, but then `thesis-type` is required:
 
 ```typst
-#show: lst.with(
+#show: uds.with(
   degree-program: "Certificate Program in Example Studies",
   thesis-type: "Project report",
   title: "My Report",
@@ -268,5 +268,5 @@ The [Open Sans](https://fonts.google.com/specimen/Open+Sans) font is Copyright 2
 Open Sans Project Authors and distributed under the
 [SIL Open Font License 11](https://fonts.google.com/specimen/Open+Sans/license).
 
-The Saarland University and LST logos in `logos/` are trademarks of their respective owners,
-used with permission, and are not covered by the package license.
+The Saarland University logo in `logos/` is a trademark of its owner, used with permission,
+and is not covered by the package license.

@@ -512,7 +512,7 @@
   // declaration page
   #set page(numbering: "i")
   #counter(page).update(0)
-  #heading(level: 100, uds-text("abstract"))
+  #heading(level: 100, uds-text("declaration"))
   #v(-2em)
   #uds-text("declaration-text")
   #v(2em)

@@ -61,7 +61,7 @@ cp lib.typ "$RELEASE_DIR/lib.typ"
 cp README.md "$RELEASE_DIR/README.md"
 cp LICENSE "$RELEASE_DIR/LICENSE"
 cp thumbnail.png "$RELEASE_DIR/thumbnail.png"
-cp logos/rgb/uds-logo.svg "$RELEASE_DIR/logos/rgb/uds-logo.svg"
+cp logos/rgb/uds-logo.png "$RELEASE_DIR/logos/rgb/uds-logo.png"
 cp template/main.typ "$RELEASE_DIR/template/main.typ"
 cp template/custom.bib "$RELEASE_DIR/template/custom.bib"
 

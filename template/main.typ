@@ -38,9 +38,9 @@ Start writing your thesis here.
 
 = Background
 
-Many interesting combinatorial problems are NP-complete #cite("GareyJohnsonBook").
+Lorem ipsum dolor sit amet, consectetur adipiscing elit #cite("musterfrau-1990-book").
 
-#cite("bender-koller-2020-climbing") argued that meaning cannot be learned from form alone.
+#citet("doe-roe-2020-lorem") argued that sed do eiusmod tempor incididunt ut labore.
 
 = My Contribution
 

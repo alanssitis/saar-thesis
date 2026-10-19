@@ -4,7 +4,7 @@ version = "0.1.0"
 entrypoint = "lib.typ"
 authors = ["Alan A. Chung Ma <alan@chung-ma.com>", "Alexander Koller <koller@lst.uni-saarland.de>"]
 license = "MIT-0"
-description = "Thesis at Saarland University."
+description = "Thesis tempalte for Saarland University."
 repository = "https://github.com/alanssitis/uds-thesis"
 keywords = [
   "Saarland University",
