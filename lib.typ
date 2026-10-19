@@ -1,6 +1,6 @@
 #import "@preview/pergamon:0.8.0": *
 
-#let uds-template-version = "0.1.0"
+#let uds-template-version = toml("typst.toml").package.version
 #let prepared-string = "Prepared with the uds-thesis Typst template, version " + uds-template-version + "."
 
 #let titlepage-bottom-fontsize = 10pt
