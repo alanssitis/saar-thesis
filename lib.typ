@@ -1,29 +1,29 @@
 #import "@preview/pergamon:0.8.0": *
 
-#let uds-template-version = toml("typst.toml").package.version
-#let prepared-string = "Prepared with the uds-thesis Typst template, version " + uds-template-version + "."
+#let saar-template-version = toml("typst.toml").package.version
+#let prepared-string = "Prepared with the saar-thesis Typst template, version " + saar-template-version + "."
 
 #let titlepage-bottom-fontsize = 10pt
 
-#let uds-blue-screen = rgb(0, 72, 118)
-#let uds-blue = uds-blue-screen
-#let uds-logo = image("logos/rgb/uds-logo.png", height: 1.8cm)
+#let saar-blue-screen = rgb(0, 72, 118)
+#let saar-blue = saar-blue-screen
+#let saar-logo = image("logos/rgb/uds-logo.png", height: 1.8cm)
 #let text-gray = luma(95)
 
 #let title-font = "Noto Sans"
 #let text-font = "Caladea"
 
-#let uds-mode-settings(mode) = {
+#let saar-mode-settings(mode) = {
   if mode == "screen" {
     (
-      blue: uds-blue-screen,
-      uds_logo: uds-logo,
+      blue: saar-blue-screen,
+      saar_logo: saar-logo,
       page_margin: (bottom: 3cm, top: 3cm, inside: 2.75cm, outside: 2.75cm),
     )
   } else if mode == "print" {
     (
-      blue: uds-blue-screen,
-      uds_logo: uds-logo,
+      blue: saar-blue-screen,
+      saar_logo: saar-logo,
       page_margin: (bottom: 3cm, top: 3cm, inside: 3.5cm, outside: 2cm),
     )
   } else {
@@ -34,7 +34,7 @@
 // Built-in strings for the parts of the thesis that the template creates.
 // The selected language comes from `#set text(lang: "...")`; unsupported
 // languages fall back to English.
-#let uds-translations = (
+#let saar-translations = (
   en: (
     bibliography: "Bibliography",
     declaration: "Declaration",
@@ -73,12 +73,12 @@
   ),
 )
 
-#let uds-current-translations() = {
+#let saar-current-translations() = {
   let lang = text.lang
-  if uds-translations.keys().contains(lang) {
-    uds-translations.at(lang)
+  if saar-translations.keys().contains(lang) {
+    saar-translations.at(lang)
   } else {
-    uds-translations.en
+    saar-translations.en
   }
 }
 
@@ -140,14 +140,14 @@
   }
 }
 
-#let uds-text(key) = context {
-  uds-current-translations().at(key)
+#let saar-text(key) = context {
+  saar-current-translations().at(key)
 }
 
 // Public helper for the end of the thesis. It keeps the bibliography heading
 // consistent with the front matter and delegates the actual entries to Pergamon.
-#let print-uds-bibliography() = {
-  heading(level: 100)[#uds-text("bibliography")]
+#let print-saar-bibliography() = {
+  heading(level: 100)[#saar-text("bibliography")]
   v(-2em)
   print-bibliography(
     title: none,
@@ -175,7 +175,7 @@
   }
 }
 
-// The title page is separated from `uds` so the main wrapper can focus on page
+// The title page is separated from `saar` so the main wrapper can focus on page
 // setup and document flow. Localized strings are passed in explicitly because
 // the title page is built inside a context block.
 #let title-page(
@@ -199,11 +199,11 @@
         #degree-program\
         #strings.university
       ]),
-      height: mode-settings.uds_logo.height,
+      height: mode-settings.saar_logo.height,
     ),
     h(1fr),
 
-    mode-settings.uds_logo,
+    mode-settings.saar_logo,
   )
 
   v(4.3cm)
@@ -229,10 +229,10 @@
 
 
 
-// Main thesis wrapper. Use it through `#show: uds.with(...)` so the
+// Main thesis wrapper. Use it through `#show: saar.with(...)` so the
 // student's document body becomes `content` after the template has inserted the
 // title page, declaration, optional front matter, and table of contents.
-#let uds(
+#let saar(
   thesis-type: none,
   degree-program: none,
   title: none,
@@ -246,8 +246,8 @@
   acknowledgments: none,
   content,
 ) = [
-  #let mode-settings = uds-mode-settings(mode)
-  #let uds-blue = mode-settings.blue
+  #let mode-settings = saar-mode-settings(mode)
+  #let saar-blue = mode-settings.blue
 
   #if title != none and author != none {
     set document(title: title, author: author, description: prepared-string, keywords: (prepared-string,))
@@ -285,12 +285,12 @@
       state("content.switch").update(true)
 
       v(2cm)
-      set text(font: title-font, weight: "bold", size: 24pt, fill: uds-blue)
+      set text(font: title-font, weight: "bold", size: 24pt, fill: saar-blue)
 
       if it.level == 1 and it.numbering != none {
-        text(font: title-font, size: 12pt, fill: text-gray)[#uds-text("chapter") #context (counter(heading).display())]
+        text(font: title-font, size: 12pt, fill: text-gray)[#saar-text("chapter") #context (counter(heading).display())]
         v(-0.6em)
-        text(fill: uds-blue, it.body)
+        text(fill: saar-blue, it.body)
 
         // Figure-like counters are chapter-local, matching labels such as 2.1.
         for kind in (image, table, raw) {
@@ -336,9 +336,9 @@
   #show figure.caption: it => {
     set text(font: title-font, size: 9pt)
     v(0.5em)
-    text(fill: uds-blue, weight: "semibold", it.supplement)
+    text(fill: saar-blue, weight: "semibold", it.supplement)
     h(0.35em)
-    text(fill: uds-blue, weight: "semibold", it.counter.display())
+    text(fill: saar-blue, weight: "semibold", it.counter.display())
     text(fill: text-gray)[:]
     h(0.35em)
     text(fill: text-gray, it.body)
@@ -346,9 +346,9 @@
 
   // Links and references use the house blue so cross-references are visible but
   // not visually louder than the surrounding thesis text.
-  #show link: set text(fill: uds-blue)
-  // #show cite: set text(fill: uds-blue)
-  #show ref: set text(fill: uds-blue)
+  #show link: set text(fill: saar-blue)
+  // #show cite: set text(fill: saar-blue)
+  #show ref: set text(fill: saar-blue)
 
   // Show page numbers only on pages that the header has marked as containing
   // real content. This avoids numbering intentionally inserted blank pages.
@@ -361,7 +361,7 @@
       let page-here = here().page()
       align(
         if calc.odd(page-here) { right } else { left },
-        text(font: title-font, size: 9pt, fill: uds-blue, weight: "semibold", counter(page).display()),
+        text(font: title-font, size: 9pt, fill: saar-blue, weight: "semibold", counter(page).display()),
       )
     } else {
       [  ] // empty page
@@ -394,7 +394,7 @@
       let chapter-title = current-chapter.body
       let chapter-number = str(counter(heading.where(level: 1)).get().first())
 
-      text(fill: uds-blue, weight: "semibold")[#uds-text("chapter") #chapter-number]
+      text(fill: saar-blue, weight: "semibold")[#saar-text("chapter") #chapter-number]
       h(0.35em)
       text(fill: text-gray)[/]
       h(0.35em)
@@ -412,7 +412,7 @@
     if sections-on-page.len() > 0 {
       let current-section = sections-on-page.first()
       let section-title = current-section.body
-      text(fill: uds-blue, weight: "semibold")[#heading-number-at(current-section)]
+      text(fill: saar-blue, weight: "semibold")[#heading-number-at(current-section)]
       h(0.35em)
       text(fill: text-gray)[/]
       h(0.35em)
@@ -422,7 +422,7 @@
       if sections-before.len() > 0 {
         let current-section = sections-before.last()
         let section-title = current-section.body
-        text(fill: uds-blue, weight: "semibold")[#heading-number-at(current-section)]
+        text(fill: saar-blue, weight: "semibold")[#heading-number-at(current-section)]
         h(0.35em)
         text(fill: text-gray)[/]
         h(0.35em)
@@ -473,10 +473,13 @@
   // Generated front matter. Page numbering starts in roman numerals after the
   // unnumbered title page, then restarts in arabic numerals for the thesis body.
   #context {
-    let strings = uds-current-translations()
+    let strings = saar-current-translations()
     if degree-program == none {
+      let known = degree-programs.keys().map(repr)
       panic(
-        "Missing degree program. Set `degree-program` to one of \"langsci\", \"coli\", \"uds\", \"lct\", or \"tst\", or pass a free-form degree-program together with `thesis-type`.",
+        "Missing degree program. Set `degree-program` to one of "
+          + known.join(", ", last: ", or ")
+          + ", or pass a free-form degree-program together with `thesis-type`.",
       )
     }
 
@@ -515,9 +518,9 @@
   // declaration page
   #set page(numbering: "i")
   #counter(page).update(0)
-  #heading(level: 100, uds-text("declaration"))
+  #heading(level: 100, saar-text("declaration"))
   #v(-2em)
-  #uds-text("declaration-text")
+  #saar-text("declaration-text")
   #v(2em)
 
   #city
@@ -536,14 +539,14 @@
   // argument is `none`.
   #set par(justify: true)
   #if abstract != none [
-    #heading(level: 100)[#uds-text("abstract")]
+    #heading(level: 100)[#saar-text("abstract")]
     #v(-2em)
     #abstract
   ]
 
   // acknowledgments
   #if acknowledgments != none [
-    #heading(level: 100)[#uds-text("acknowledgments")]
+    #heading(level: 100)[#saar-text("acknowledgments")]
     #v(-2em)
     #acknowledgments
   ]
@@ -554,7 +557,7 @@
     it
   }
 
-  #outline(title: uds-text("contents"), depth: 2) // show sections, but not subsections
+  #outline(title: saar-text("contents"), depth: 2) // show sections, but not subsections
 
   // Main matter starts the visible chapter/section numbering and wraps the body
   // in Pergamon's author-year citation style.
@@ -563,7 +566,7 @@
   #set heading(numbering: "1.1")
 
   #context {
-    let strings = uds-current-translations()
+    let strings = saar-current-translations()
     refsection(
       style: authoryear-style(
         reference: (

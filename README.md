@@ -21,11 +21,11 @@ intended for double-sided printing and binding, with a wider inner margin.
 ## Quick start in the Typst web app
 
 1. Open the Typst web app.
-2. Create a new project from the `uds-thesis` template.
+2. Create a new project from the `saar-thesis` template.
 3. Edit the metadata in the `#show` block.
 4. Add BibTeX entries and import your BibTeX file with `add-bib-resource`.
 
-You can write the thesis below the `#show: uds` block and export the PDF from the web app.
+You can write the thesis below the `#show: saar` block and export the PDF from the web app.
 
 
 ## Minimal thesis file
@@ -33,12 +33,12 @@ You can write the thesis below the `#show: uds` block and export the PDF from th
 This is the smallest useful shape of a thesis file:
 
 ```typst
-#import "@preview/uds-thesis:0.1.0": *
+#import "@preview/saar-thesis:0.1.0": *
 #import "@preview/pergamon:0.8.0": *
 
 #set text(lang: "en")
 
-#show: uds.with(
+#show: saar.with(
   title: "My Thesis Title",
   author: "Jane Student",
   matriculation-number: "1234567",
@@ -63,13 +63,13 @@ This is the smallest useful shape of a thesis file:
 
 Start writing here. Cite papers with Pergamon like this #cite("doe-roe-2020-lorem").
 
-#print-uds-bibliography()
+#print-saar-bibliography()
 ```
 
 
 ## Template arguments
 
-The main function is `uds`. Use it in a `#show` rule around your document content.
+The main function is `saar`. Use it in a `#show` rule around your document content.
 
 - `title`: Thesis title shown on the title page and stored in the PDF metadata. Can be any content.
 - `author`: Your name, stored in the PDF metadata. Must be a string.
@@ -180,7 +180,7 @@ three pieces in your thesis file:
 
 #add-bib-resource(read("custom.bib"))
 
-#print-uds-bibliography()
+#print-saar-bibliography()
 ```
 
 Add references to `custom.bib` in normal BibTeX format. Of course you can also use Bibtex files with different names.
@@ -195,10 +195,10 @@ Pass the BibTeX key as a string (not as a label like in the default Typst `cite`
 Finally, print the bibliography at the end of the document:
 
 ```typst
-#print-uds-bibliography()
+#print-saar-bibliography()
 ```
 
-`print-uds-bibliography` is provided by this template. It creates the UdS-styled bibliography
+`print-saar-bibliography` is provided by this template. It creates the UdS-styled bibliography
 heading and then asks Pergamon to print the bibliography.
 
 
@@ -227,7 +227,7 @@ looks wrong.
 To select another degree program, set `degree-program`:
 
 ```typst
-#show: uds.with(
+#show: saar.with(
   degree-program: "m-cs-info",
   title: "My Thesis Title",
   // add the remaining arguments as in the minimal example
@@ -237,7 +237,7 @@ To select another degree program, set `degree-program`:
 To override the thesis type that is chosen from the degree program, set `thesis-type`:
 
 ```typst
-#show: uds.with(
+#show: saar.with(
   degree-program: "b-cs-info",
   thesis-type: "Seminar paper",
   title: "My Seminar Paper",
@@ -248,7 +248,7 @@ To override the thesis type that is chosen from the degree program, set `thesis-
 Free-form degree programs are also possible, but then `thesis-type` is required:
 
 ```typst
-#show: uds.with(
+#show: saar.with(
   degree-program: "Certificate Program in Example Studies",
   thesis-type: "Project report",
   title: "My Report",

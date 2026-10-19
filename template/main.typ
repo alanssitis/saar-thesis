@@ -1,10 +1,10 @@
-#import "@preview/uds-thesis:0.1.0": *
+#import "@preview/saar-thesis:0.1.0": *
 #import "@preview/pergamon:0.8.0": *
 
 // Use "de" for German template labels.
 #set text(lang: "en")
 
-#show: uds.with(
+#show: saar.with(
   title: "Thesis Title",
   author: "Your Name",
   matriculation-number: "Your Matriculation Number",
@@ -46,4 +46,4 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit #cite("musterfrau-1990-b
 
 = Conclusion
 
-#print-uds-bibliography()
+#print-saar-bibliography()

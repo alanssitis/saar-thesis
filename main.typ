@@ -3,7 +3,7 @@
 
 // #set text(lang: "de")
 
-#show: uds.with(
+#show: saar.with(
   title: "Lorem Ipsum Dolor Sit Amet",
   author: "Jane Doe",
   degree-program: "b-cs-info",
@@ -134,4 +134,4 @@
 
 #lorem(90)
 
-#print-uds-bibliography()
+#print-saar-bibliography()

@@ -1,11 +1,11 @@
 [package]
-name = "uds-thesis"
+name = "saar-thesis"
 version = "0.1.0"
 entrypoint = "lib.typ"
-authors = ["Alan A. Chung Ma <alan@chung-ma.com>", "Alexander Koller <koller@lst.uni-saarland.de>"]
+authors = ["Alan A. Chung Ma <alan@chung-ma.com>"]
 license = "MIT-0"
-description = "Thesis tempalte for Saarland University."
-repository = "https://github.com/alanssitis/uds-thesis"
+description = "Thesis template for Saarland University."
+repository = "https://github.com/alanssitis/saar-thesis"
 keywords = [
   "Saarland University",
   "thesis",
