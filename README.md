@@ -276,9 +276,16 @@ rule:
 
 The Typst source files are released under an MIT-0 license.
 
-The [Open Sans](https://fonts.google.com/specimen/Open+Sans) font is Copyright 2020 by The
-Open Sans Project Authors and distributed under the
-[SIL Open Font License 11](https://fonts.google.com/specimen/Open+Sans/license).
+The template uses two fonts, neither of which is bundled with this package:
+
+- [Caladea](https://fonts.google.com/specimen/Caladea) is Copyright 2012 by The Caladea Project
+  Authors and distributed under the
+  [SIL Open Font License 1.1](https://fonts.google.com/specimen/Caladea/license).
+- [Noto Sans](https://fonts.google.com/specimen/Noto+Sans) is Copyright 2022 by The Noto Project
+  Authors and distributed under the
+  [SIL Open Font License 1.1](https://fonts.google.com/specimen/Noto+Sans/license).
 
 The Saarland University logo in `logos/` is a trademark of its owner, used with permission,
-and is not covered by the package license.
+and is not covered by the package license. Permission for the logo was requested separately
+for this fork; it does not come from the upstream
+[coli-saar/owl-lst-thesis](https://github.com/coli-saar/owl-lst-thesis) repository.
