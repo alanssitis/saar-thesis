@@ -204,10 +204,22 @@ heading and then asks Pergamon to print the bibliography.
 
 ## Fonts
 
-The template uses Libertinus Serif for the main text and Open Sans for headings, captions, headers, and title-page elements. Install
-[Open Sans](https://fonts.google.com/specimen/Open+Sans) locally when compiling offline.
+The template uses [Caladea](https://fonts.google.com/specimen/Caladea) for the main text and
+[Noto Sans](https://fonts.google.com/specimen/Noto+Sans) for headings, captions, headers, and
+title-page elements. Neither font ships with Typst or this package.
 
-In the Typst web app, Libertinus Serif and Open Sans should be available without extra setup.
+**Compiling locally:** download both fonts and install them on your system, or put the font files
+in a folder and pass it to Typst with `--font-path`:
+
+```sh
+typst compile --font-path fonts/ main.typ
+```
+
+Run `typst fonts` to check that both show up. If a font is missing, Typst prints an
+`unknown font family` warning and falls back to a default font, so the PDF still compiles but
+looks wrong.
+
+**Typst web app:** both fonts should be available without extra setup.
 
 
 ## Common metadata patterns

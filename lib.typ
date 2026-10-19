@@ -10,6 +10,9 @@
 #let uds-logo = image("logos/rgb/uds-logo.png", height: 1.8cm)
 #let text-gray = luma(95)
 
+#let title-font = "Noto Sans"
+#let text-font = "Caladea"
+
 #let uds-mode-settings(mode) = {
   if mode == "screen" {
     (
@@ -186,7 +189,7 @@
   supervisors,
   date,
 ) = {
-  set text(font: "Open Sans")
+  set text(font: title-font)
 
   stack(
     dir: ltr,
@@ -263,7 +266,7 @@
     number-align: center,
   )
 
-  #set text(size: 11pt)
+  #set text(font: text-font, size: 11pt)
   #let leading-space = 0.7em
   #let paragraph-space = 2 * leading-space
   #set par(leading: leading-space, spacing: paragraph-space)
@@ -282,10 +285,10 @@
       state("content.switch").update(true)
 
       v(2cm)
-      set text(font: ("Open Sans", "Libertinus Serif"), weight: "bold", size: 24pt, fill: uds-blue)
+      set text(font: title-font, weight: "bold", size: 24pt, fill: uds-blue)
 
       if it.level == 1 and it.numbering != none {
-        text(font: "Open Sans", size: 12pt, fill: text-gray)[#uds-text("chapter") #context (counter(heading).display())]
+        text(font: title-font, size: 12pt, fill: text-gray)[#uds-text("chapter") #context (counter(heading).display())]
         v(-0.6em)
         text(fill: uds-blue, it.body)
 
@@ -301,12 +304,12 @@
     } else if it.level == 2 {
       // Sections
       v(paragraph-space)
-      text(font: "Open Sans", size: 15pt, weight: "bold", it)
+      text(font: title-font, size: 15pt, weight: "bold", it)
       v(1.5em, weak: true)
     } else if it.level == 3 {
       // Subsections
       v(0.3em)
-      text(font: "Open Sans", size: 12.5pt, weight: "bold", it)
+      text(font: title-font, size: 12.5pt, weight: "bold", it)
       v(1em, weak: true)
     } else if it.level == 4 {
       // v(0.7em)
@@ -331,7 +334,7 @@
   #show figure: set place(clearance: 2em)
 
   #show figure.caption: it => {
-    set text(font: "Open Sans", size: 9pt)
+    set text(font: title-font, size: 9pt)
     v(0.5em)
     text(fill: uds-blue, weight: "semibold", it.supplement)
     h(0.35em)
@@ -358,7 +361,7 @@
       let page-here = here().page()
       align(
         if calc.odd(page-here) { right } else { left },
-        text(font: "Open Sans", size: 9pt, fill: uds-blue, weight: "semibold", counter(page).display()),
+        text(font: title-font, size: 9pt, fill: uds-blue, weight: "semibold", counter(page).display()),
       )
     } else {
       [  ] // empty page
@@ -454,7 +457,7 @@
 
       align(
         if calc.odd(page-here) { right } else { left },
-        text(font: "Open Sans", size: 9pt)[
+        text(font: title-font, size: 9pt)[
           #header-content
         ],
       )
