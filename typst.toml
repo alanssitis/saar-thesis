@@ -11,7 +11,7 @@ keywords = [
   "thesis",
 ]
 categories = ["thesis"]
-disciplines = ["computer-science", "math"]
+disciplines = ["computer-science", "mathematics"]
 compiler = "0.15.1"
 
 [template]
