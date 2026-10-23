@@ -10,8 +10,19 @@
 #let saar-logo = image("logos/rgb/uds-logo.png", height: 1.8cm)
 #let text-gray = luma(95)
 
-#let title-font = "Noto Sans"
-#let text-font = "Caladea"
+// Default fonts. Users can override both through the `saar` arguments
+// `title-font` and `text-font`. A font argument can be a single family name
+// or an array of names, which Typst tries in order as fallbacks.
+#let default-title-font = "Noto Sans"
+#let default-text-font = "Caladea"
+
+#let check-font(name, value) = {
+  assert(
+    type(value) == str or (type(value) == array and value.len() > 0 and value.all(v => type(v) == str)),
+    message: name + " must be a font name or a non-empty array of font names, got " + repr(value),
+  )
+  value
+}
 
 #let saar-mode-settings(mode) = {
   if mode == "screen" {
@@ -179,6 +190,7 @@
 // setup and document flow. Localized strings are passed in explicitly because
 // the title page is built inside a context block.
 #let title-page(
+  title-font,
   mode-settings,
   strings,
   thesis-type,
@@ -244,8 +256,13 @@
   mode: "screen",
   abstract: none,
   acknowledgments: none,
+  title-font: default-title-font,
+  text-font: default-text-font,
   content,
 ) = [
+  // Validate the font arguments once. Every font use below reads these names.
+  #let title-font = check-font("title-font", title-font)
+  #let text-font = check-font("text-font", text-font)
   #let mode-settings = saar-mode-settings(mode)
   #let saar-blue = mode-settings.blue
 
@@ -503,6 +520,7 @@
 
     // title page
     title-page(
+      title-font,
       mode-settings,
       strings,
       displayed-thesis-type,

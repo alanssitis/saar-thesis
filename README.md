@@ -87,6 +87,11 @@ The main function is `saar`. Use it in a `#show` rule around your document conte
 - `mode`: Optional string. Defaults to `"screen"`, which makes the left and right margin equal size. Use `"print"` for a wider inner margin for binding.
 - `abstract`: Optional content. If present, the template creates an abstract page.
 - `acknowledgments`: Optional content. If present, the template creates an acknowledgments page.
+- `title-font`: Optional font for headings, captions, headers, page numbers, and the title page.
+  Defaults to `"Noto Sans"`. Pass a font name or an array of names to try in order, e.g.
+  `("Inter", "Noto Sans")`.
+- `text-font`: Optional font for the body text. Defaults to `"Caladea"`. Accepts the same forms
+  as `title-font`.
 
 Built-in degree programs:
 
