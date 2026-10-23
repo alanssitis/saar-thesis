@@ -1,6 +1,6 @@
 [package]
 name = "saar-thesis"
-version = "0.1.0"
+version = "0.1.1"
 entrypoint = "lib.typ"
 authors = ["Alan A. Chung Ma <alan@chung-ma.com>"]
 license = "MIT-0"
@@ -12,7 +12,7 @@ keywords = [
 ]
 categories = ["thesis"]
 disciplines = ["computer-science", "mathematics"]
-compiler = "0.15.1"
+compiler = "0.15.0"
 
 [template]
 path = "template"

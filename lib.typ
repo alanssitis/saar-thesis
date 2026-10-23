@@ -157,12 +157,10 @@
 
 // Public helper for the end of the thesis. It keeps the bibliography heading
 // consistent with the front matter and delegates the actual entries to Pergamon.
-#let print-saar-bibliography() = {
-  heading(level: 100)[#saar-text("bibliography")]
+#let print-saar-bibliography(..args) = {
+  heading(level: 1, numbering: none)[#saar-text("bibliography")]
   v(-2em)
-  print-bibliography(
-    title: none,
-  )
+  print-bibliography(title: none, ..args)
 }
 
 // Render grouped supervisor/advisor entries. Each group is expected to have the
@@ -290,11 +288,8 @@
 
 
 
-  // Level 100 is reserved for generated front-matter headings. It lets the
-  // template reuse the chapter-opening layout without putting these pages into
-  // the normal chapter numbering.
   #show heading: it => {
-    if it.level == 1 or it.level == 100 {
+    if it.level == 1 {
       // The content switch marks inserted blank pages so headers and footers can
       // stay empty on pages created only to force odd-page chapter starts.
       state("content.switch").update(false)
@@ -455,7 +450,7 @@
   #let page-header = context {
     let page-here = here().page()
     // Chapter starts include real chapters and generated front-matter pages.
-    let is-start-chapter = query(heading.where(level: 1).or(heading.where(level: 100))).any(it => (
+    let is-start-chapter = query(heading.where(level: 1)).any(it => (
       it.location().page() == page-here
     ))
 
@@ -536,7 +531,7 @@
   // declaration page
   #set page(numbering: "i")
   #counter(page).update(0)
-  #heading(level: 100, saar-text("declaration"))
+  #heading(level: 1, numbering: none, saar-text("declaration"))
   #v(-2em)
   #saar-text("declaration-text")
   #v(2em)
@@ -557,14 +552,14 @@
   // argument is `none`.
   #set par(justify: true)
   #if abstract != none [
-    #heading(level: 100)[#saar-text("abstract")]
+    #heading(level: 1, numbering: none)[#saar-text("abstract")]
     #v(-2em)
     #abstract
   ]
 
   // acknowledgments
   #if acknowledgments != none [
-    #heading(level: 100)[#saar-text("acknowledgments")]
+    #heading(level: 1, numbering: none)[#saar-text("acknowledgments")]
     #v(-2em)
     #acknowledgments
   ]
