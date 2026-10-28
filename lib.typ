@@ -256,6 +256,20 @@
   acknowledgments: none,
   title-font: default-title-font,
   text-font: default-text-font,
+  ref-style: authoryear-style(
+    reference: (
+      name-format: "{given} {family}",
+      format-quotes: it => it,
+      print-date-after-authors: true,
+      suppress-fields: (
+        "*": ("month", "day"),
+        "inproceedings": ("editor", "publisher", "pages", "location"),
+      ),
+      eval-scope: ("todo": x => text(fill: red, x)),
+      bibstring: ("in": saar-text("bib-in")),
+      bibstring-style: "long",
+    ),
+  ),
   content,
 ) = [
   // Validate the font arguments once. Every font use below reads these names.
@@ -575,27 +589,17 @@
   // Main matter starts the visible chapter/section numbering and wraps the body
   // in Pergamon's author-year citation style.
   #set page(numbering: "1")
-  #counter(page).update(0)
   #set heading(numbering: "1.1")
 
+  // In case table of contents is longer than one page, need to set starting
+  // page count to 1 if table of contents ends in even page number.
   #context {
-    let strings = saar-current-translations()
-    refsection(
-      style: authoryear-style(
-        reference: (
-          name-format: "{given} {family}",
-          format-quotes: it => it,
-          print-date-after-authors: true,
-          suppress-fields: (
-            "*": ("month", "day"),
-            "inproceedings": ("editor", "publisher", "pages", "location"),
-          ),
-          eval-scope: ("todo": x => text(fill: red, x)),
-          bibstring: ("in": strings.bib-in),
-          bibstring-style: "long",
-        ),
-      ),
-      content,
-    )
+    let starting_page = if calc.odd(here().page()) { 1 } else { 0 }
+    counter(page).update(starting_page)
   }
+
+  #refsection(
+    style: ref-style,
+    content,
+  )
 ]
