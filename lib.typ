@@ -127,7 +127,7 @@
       en: "M.Sc. Cybersecurity",
       de: "M.Sc. Cybersicherheit",
     ),
-    thesis-type: thesis-type-bachelor,
+    thesis-type: thesis-type-master,
   ),
 )
 
