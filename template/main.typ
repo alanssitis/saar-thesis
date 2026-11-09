@@ -1,4 +1,4 @@
-#import "@preview/saar-thesis:0.1.3": *
+#import "@preview/saar-thesis:0.2.0": *
 
 // Use "de" for German template labels.
 #set text(lang: "en")

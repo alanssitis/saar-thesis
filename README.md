@@ -33,7 +33,7 @@ You can write the thesis below the `#show: saar` block and export the PDF from t
 This is the smallest useful shape of a thesis file:
 
 ```typst
-#import "@preview/saar-thesis:0.1.3": *
+#import "@preview/saar-thesis:0.2.0": *
 
 #set text(lang: "en")
 
