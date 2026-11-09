@@ -1,5 +1,3 @@
-#import "@preview/pergamon:0.8.0": *
-
 #let saar-template-version = toml("typst.toml").package.version
 #let prepared-string = "Prepared with the saar-thesis Typst template, version " + saar-template-version + "."
 
@@ -155,14 +153,6 @@
   saar-current-translations().at(key)
 }
 
-// Public helper for the end of the thesis. It keeps the bibliography heading
-// consistent with the front matter and delegates the actual entries to Pergamon.
-#let print-saar-bibliography(..args) = {
-  heading(level: 1, numbering: none)[#saar-text("bibliography")]
-  v(-2em)
-  print-bibliography(title: none, ..args)
-}
-
 // Render grouped supervisor/advisor entries. Each group is expected to have the
 // role label first and one or more names afterwards.
 #let advisors(supervisors) = {
@@ -256,20 +246,6 @@
   acknowledgments: none,
   title-font: default-title-font,
   text-font: default-text-font,
-  ref-style: authoryear-style(
-    reference: (
-      name-format: "{given} {family}",
-      format-quotes: it => it,
-      print-date-after-authors: true,
-      suppress-fields: (
-        "*": ("month", "day"),
-        "inproceedings": ("editor", "publisher", "pages", "location"),
-      ),
-      eval-scope: ("todo": x => text(fill: red, x)),
-      bibstring: ("in": saar-text("bib-in")),
-      bibstring-style: "long",
-    ),
-  ),
   content,
 ) = [
   // Validate the font arguments once. Every font use below reads these names.
@@ -304,11 +280,13 @@
 
   #show heading: it => {
     if it.level == 1 {
-      // The content switch marks inserted blank pages so headers and footers can
-      // stay empty on pages created only to force odd-page chapter starts.
-      state("content.switch").update(false)
-      pagebreak(weak: true, to: "odd")
-      state("content.switch").update(true)
+      // Chapters start on odd pages. The page set rule is scoped to this block,
+      // so only a blank page inserted by the pagebreak loses its header and
+      // footer. See https://github.com/typst/typst/discussions/3122
+      {
+        set page(header: none, footer: none)
+        pagebreak(weak: true, to: "odd")
+      }
 
       v(2cm)
       set text(font: title-font, weight: "bold", size: 24pt, fill: saar-blue)
@@ -376,22 +354,14 @@
   // #show cite: set text(fill: saar-blue)
   #show ref: set text(fill: saar-blue)
 
-  // Show page numbers only on pages that the header has marked as containing
-  // real content. This avoids numbering intentionally inserted blank pages.
-  // The state-based approach follows the pattern discussed in:
-  // https://github.com/typst/typst/discussions/3122
+  // Blank pages inserted before chapters and the title page have no footer, so
+  // every page that reaches this footer gets a number.
   #let page-footer = context {
-    let has-content = state("content.pages", (0,)).get().contains(here().page())
-
-    if has-content {
-      let page-here = here().page()
-      align(
-        if calc.odd(page-here) { right } else { left },
-        text(font: title-font, size: 9pt, fill: saar-blue, weight: "semibold", counter(page).display()),
-      )
-    } else {
-      [  ] // empty page
-    }
+    let page-here = here().page()
+    align(
+      if calc.odd(page-here) { right } else { left },
+      text(font: title-font, size: 9pt, fill: saar-blue, weight: "semibold", counter(page).display()),
+    )
   }
 
   #let heading-number-at(it) = {
@@ -431,47 +401,47 @@
   // Build odd-page running heads of the form "2.3 / Previous Work". If the
   // current chapter has no section yet, fall back to the chapter header.
   #let header-for-section() = context {
+    // Sections only count if they belong to the current chapter. Without this,
+    // pages of an unnumbered chapter (e.g. the bibliography) or the opening
+    // pages of a chapter without sections yet would show the previous
+    // chapter's last section.
+    let chapters-before = query(heading.where(level: 1).before(here()))
+    if chapters-before.len() == 0 { return [] }
+    let current-chapter = chapters-before.last()
+
+    // no header in un-numbered chapters
+    if current-chapter.numbering == none { return [] }
+
     let page-number = here().page()
     let sections = heading.where(level: 2)
     let sections-on-page = query(sections).filter(it => it.location().page() == page-number)
 
-    if sections-on-page.len() > 0 {
-      let current-section = sections-on-page.first()
-      let section-title = current-section.body
+    let current-section = if sections-on-page.len() > 0 {
+      sections-on-page.first()
+    } else {
+      let sections-in-chapter = query(sections.after(current-chapter.location()).before(here()))
+      if sections-in-chapter.len() > 0 { sections-in-chapter.last() } else { none }
+    }
+
+    if current-section == none {
+      header-for-chapter()
+    } else {
       text(fill: saar-blue, weight: "semibold")[#heading-number-at(current-section)]
       h(0.35em)
       text(fill: text-gray)[/]
       h(0.35em)
-      text(fill: text-gray, section-title)
-    } else {
-      let sections-before = query(sections.before(here()))
-      if sections-before.len() > 0 {
-        let current-section = sections-before.last()
-        let section-title = current-section.body
-        text(fill: saar-blue, weight: "semibold")[#heading-number-at(current-section)]
-        h(0.35em)
-        text(fill: text-gray)[/]
-        h(0.35em)
-        text(fill: text-gray, section-title)
-      } else {
-        header-for-chapter()
-      }
+      text(fill: text-gray, current-section.body)
     }
   }
 
-  // Page headers are also responsible for recording which pages are nonblank;
-  // the footer reads that state when deciding whether to print a page number.
+  // Blank pages inserted before chapters get no header at all (see the
+  // heading show rule), so this only has to handle real pages.
   #let page-header = context {
     let page-here = here().page()
     // Chapter starts include real chapters and generated front-matter pages.
     let is-start-chapter = query(heading.where(level: 1)).any(it => (
       it.location().page() == page-here
     ))
-
-    if not state("content.switch", false).get() and not is-start-chapter {
-      [  ] // empty page
-      return
-    }
 
     // Suppress running heads on chapter-opening pages.
     if not is-start-chapter {
@@ -488,12 +458,8 @@
         ],
       )
     }
-
-    // update the list of pages on which the footer displays page numbers
-    state("content.pages").update(it => return it + (page-here,))
   }
 
-  #set page(footer: page-footer, header: page-header)
 
 
   // Generated front matter. Page numbering starts in roman numerals after the
@@ -542,6 +508,9 @@
     )
   }
 
+  // Headers and footers start after the title page, which stays bare.
+  #set page(footer: page-footer, header: page-header)
+
   // declaration page
   #set page(numbering: "i")
   #counter(page).update(0)
@@ -586,10 +555,11 @@
 
   #outline(title: saar-text("contents"), depth: 2) // show sections, but not subsections
 
-  // Main matter starts the visible chapter/section numbering and wraps the body
-  // in Pergamon's author-year citation style.
+  // Main matter starts the visible chapter/section numbering.
   #set page(numbering: "1")
   #set heading(numbering: "1.1")
+
+  #set bibliography(title: saar-text("bibliography"))
 
   // In case table of contents is longer than one page, need to set starting
   // page count to 1 if table of contents ends in even page number.
@@ -598,8 +568,5 @@
     counter(page).update(starting_page)
   }
 
-  #refsection(
-    style: ref-style,
-    content,
-  )
+  #content
 ]

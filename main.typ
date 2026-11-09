@@ -1,5 +1,4 @@
 #import "lib.typ": *
-#import "@preview/pergamon:0.8.0": *
 
 // #set text(lang: "de")
 
@@ -28,9 +27,6 @@
   ],
 )
 
-
-#add-bib-resource(read("custom.bib"))
-
 #let sample-figure(title, body) = box(
   width: 100%,
   inset: 1.1em,
@@ -49,7 +45,7 @@
 
 #lorem(150)
 
-#lorem(120) #cite("doe-roe-2020-lorem")
+#lorem(120) @doe-roe-2020-lorem
 
 #lorem(100) See @sec:background and @tab:lorem.
 
@@ -57,11 +53,11 @@
 
 #lorem(140)
 
-#citet("musterfrau-1990-book") #lorem(60)
+@musterfrau-1990-book #lorem(60)
 
 == Related Work
 
-#lorem(120) #cite("roe-etal-2015-consectetur")
+#lorem(120) @roe-etal-2015-consectetur
 
 #lorem(90)
 
@@ -106,7 +102,7 @@
 
 === Sed Do Eiusmod
 
-#lorem(120) #cite("doe-2023-magna")
+#lorem(120) @doe-2023-magna
 
 = Results
 
@@ -134,4 +130,4 @@
 
 #lorem(90)
 
-#print-saar-bibliography()
+#bibliography("custom.bib"))

@@ -23,7 +23,7 @@ intended for double-sided printing and binding, with a wider inner margin.
 1. Open the Typst web app.
 2. Create a new project from the `saar-thesis` template.
 3. Edit the metadata in the `#show` block.
-4. Add BibTeX entries and import your BibTeX file with `add-bib-resource`.
+4. Add BibTeX entries to `custom.bib` and print them with `#bibliography("custom.bib")`.
 
 You can write the thesis below the `#show: saar` block and export the PDF from the web app.
 
@@ -33,8 +33,7 @@ You can write the thesis below the `#show: saar` block and export the PDF from t
 This is the smallest useful shape of a thesis file:
 
 ```typst
-#import "@preview/saar-thesis:0.1.0": *
-#import "@preview/pergamon:0.8.0": *
+#import "@preview/saar-thesis:0.1.3": *
 
 #set text(lang: "en")
 
@@ -57,13 +56,11 @@ This is the smallest useful shape of a thesis file:
     Optional acknowledgments go here.
   ])
 
-#add-bib-resource(read("custom.bib"))
-
 = Introduction
 
-Start writing here. Cite papers with Pergamon like this #cite("doe-roe-2020-lorem").
+Start writing here. Cite papers like this @doe-roe-2020-lorem.
 
-#print-saar-bibliography()
+#bibliography("custom.bib")
 ```
 
 
@@ -175,36 +172,12 @@ See @fig:example.
 
 
 
-## Citations and bibliography with Pergamon
+## Citations and bibliography
 
-This template uses [Pergamon](https://typst.app/universe/package/pergamon) for author-year citations and bibliography formatting. Keep these
-three pieces in your thesis file:
-
-```typst
-#import "@preview/pergamon:0.8.0": *
-
-#add-bib-resource(read("custom.bib"))
-
-#print-saar-bibliography()
-```
-
-Add references to `custom.bib` in normal BibTeX format. Of course you can also use Bibtex files with different names.
-
-Cite a source in parentheses with `#cite` and as a noun phrase with `#citet`.
-Pass the BibTeX key as a string (not as a label like in the default Typst `cite` command):
-
-```typst
-#citet("doe-roe-2020-lorem") argued that sed do eiusmod tempor incididunt ut labore.
-```
-
-Finally, print the bibliography at the end of the document:
-
-```typst
-#print-saar-bibliography()
-```
-
-`print-saar-bibliography` is provided by this template. It creates the UdS-styled bibliography
-heading and then asks Pergamon to print the bibliography.
+The template uses Typst's built-in bibliography and only localizes and styles its heading. For
+citing sources, bibliography files, and citation styles, see the official Typst documentation for
+[`bibliography`](https://typst.app/docs/reference/model/bibliography/) and
+[`cite`](https://typst.app/docs/reference/model/cite/).
 
 
 ## Fonts

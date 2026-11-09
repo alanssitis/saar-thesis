@@ -1,5 +1,4 @@
-#import "@preview/saar-thesis:0.1.0": *
-#import "@preview/pergamon:0.8.0": *
+#import "@preview/saar-thesis:0.1.3": *
 
 // Use "de" for German template labels.
 #set text(lang: "en")
@@ -30,20 +29,18 @@
   ],
 )
 
-#add-bib-resource(read("custom.bib"))
-
 = Introduction
 
 Start writing your thesis here.
 
 = Background
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit #cite("musterfrau-1990-book").
+Lorem ipsum dolor sit amet, consectetur adipiscing elit @musterfrau-1990-book.
 
-#citet("doe-roe-2020-lorem") argued that sed do eiusmod tempor incididunt ut labore.
+#cite(<doe-roe-2020-lorem>, form: "prose") argued that sed do eiusmod tempor incididunt ut labore.
 
 = My Contribution
 
 = Conclusion
 
-#print-saar-bibliography()
+#bibliography("custom.bib")
