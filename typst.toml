@@ -1,6 +1,6 @@
 [package]
 name = "saar-thesis"
-version = "0.1.3"
+version = "0.2.0"
 entrypoint = "lib.typ"
 authors = ["Alan A. Chung Ma <alan@chung-ma.com>"]
 license = "MIT-0"
